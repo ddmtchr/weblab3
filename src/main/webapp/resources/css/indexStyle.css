@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Ubuntu:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Ubuntu+Mono&family=Ubuntu:wght@500&display=swap');
+
+body {
+    background-color: #fee1a440;
+    font: 400 14px 'Ubuntu', 'Roboto', sans-serif;
+    color: #111;
+    transition: all .4s ease;
+}
+
+#header {
+    display: flex;
+    justify-content: right;
+    border: 0 solid #c0c4c9;
+    border-bottom-width: 2px;
+    margin-bottom: 5px;
+
+    & #info p {
+        font: 500 18px 'Ubuntu Mono', 'Fira Code', monospace;
+        color: #aaa;
+        text-align: right;
+        margin: 0;
+    }
+}
+
+#container {
+    display: flex;
+    justify-content: center;
+}
+
+.section-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #eee;
+    border-radius: 0.2rem;
+    margin: 5px;
+    padding: 5px;
+    box-shadow: 3px 5px 20px 0 rgba(34, 60, 80, 0.2);
+    width: 400px;
+    height: fit-content;
+}
+
+.section-container * {
+    margin: 3%;
+}
+
+.ui-analog-clock {
+    text-align: center;
+    width: 200px;
+}
+
+input[type="submit"], input[type="button"], button {
+    font: 400 14px 'Ubuntu', 'Roboto', sans-serif;
+    padding: 5px;
+    border-radius: 5px;
+    border: 0;
+    cursor: pointer;
+    color: #111;
+    background-color: #c0dcfc;
+    font-weight: 550;
+    transition: all 0.4s ease;
+    min-width: 140px;
+}
+
+input[type="submit"]:hover, input[type="button"]:hover, button:hover {
+    background-color: #b0ccfc;
+}

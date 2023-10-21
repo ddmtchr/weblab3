@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title>Weblab #3</title>
+    <link rel="icon" href="resources/assets/duck.png"/>
+    <h:outputStylesheet library="css" name="indexStyle.css"/>
+</h:head>
+
+<h:body>
+    <f:view>
+        <h:panelGroup id="header" layout="block">
+            <h:panelGroup id="info" layout="block">
+                <p>Romanenko Mikhail Romanovich</p>
+                <p>Group P3211</p>
+                <p>Variant 4135</p>
+            </h:panelGroup>
+        </h:panelGroup>
+
+        <h:panelGroup id="container">
+            <h:panelGroup styleClass="section-container">
+                <h:panelGroup>
+                    <p:clock mode="server" displayMode="analog"/>
+                </h:panelGroup>
+
+                <h:outputText value="Current time"/>
+                <h:outputText id="time" value="#{timeBean.dateTime}"/>
+                <h:form id="hiddenForm" style="display:none">
+                    <h:commandButton id="updateDateTime">
+                        <f:ajax render="time"/>
+                    </h:commandButton>
+                </h:form>
+                <h:panelGroup layout="block">
+                    <h:button value="Main page" outcome="redirectToMain"/>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:panelGroup>
+
+    </f:view>
+    <h:outputScript>
+        setInterval(function () {
+            document.getElementById('hiddenForm:updateDateTime').click()
+        }, 7000)
+    </h:outputScript>
+</h:body>
+
+</html>
