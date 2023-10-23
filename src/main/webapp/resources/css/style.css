@@ -175,8 +175,9 @@ th {
 }
 
 .canvas-container {
-    width: 500px;
+    width: fit-content;
     height: fit-content;
+    box-sizing: content-box;
 }
 
 .table-container {

@@ -1,9 +1,15 @@
+package beans;
+
 import java.io.Serializable;
 
 public class InputBean implements Serializable {
     private int x;
     private Double y;
     private Double r;
+
+    public InputBean() {
+        r = 1.0;
+    }
 
     public int getX() {
         return x;

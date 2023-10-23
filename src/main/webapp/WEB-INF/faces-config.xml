@@ -22,24 +22,32 @@
 
     <managed-bean>
         <managed-bean-name>timeBean</managed-bean-name>
-        <managed-bean-class>TimeBean</managed-bean-class>
+        <managed-bean-class>beans.TimeBean</managed-bean-class>
         <managed-bean-scope>application</managed-bean-scope>
     </managed-bean>
 
     <managed-bean>
         <managed-bean-name>inputBean</managed-bean-name>
-        <managed-bean-class>InputBean</managed-bean-class>
-        <managed-bean-scope>request</managed-bean-scope>
+        <managed-bean-class>beans.InputBean</managed-bean-class>
+        <managed-bean-scope>application</managed-bean-scope>
     </managed-bean>
 
     <managed-bean>
         <managed-bean-name>resultCollectionBean</managed-bean-name>
-        <managed-bean-class>ResultCollectionBean</managed-bean-class>
+        <managed-bean-class>beans.ResultCollectionBean</managed-bean-class>
         <managed-bean-scope>application</managed-bean-scope>
     </managed-bean>
 
+    <managed-bean>
+        <managed-bean-name>resultBean</managed-bean-name>
+        <managed-bean-class>beans.ResultBean</managed-bean-class>
+        <managed-bean-scope>application</managed-bean-scope>
+    </managed-bean>
 
-
-
+    <managed-bean>
+        <managed-bean-name>graphClickBean</managed-bean-name>
+        <managed-bean-class>beans.GraphClickBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 
 </faces-config>

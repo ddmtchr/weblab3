@@ -1,6 +1,5 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page isErrorPage="true"%>
-<%@ page import="org.apache.commons.httpclient.HttpStatus"%>
+<%@ page import="org.apache.commons.httpclient.HttpStatus" %>
+<%@ page isErrorPage="true" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,16 +15,18 @@
 <header>
     <div class="header">
         <% if (exception != null) { %>
-        <p><%= exception.getClass().getName() %></p>
+        <p><%= exception.getClass().getName() %>
+        </p>
         <% } else { %>
         <% int status = response.getStatus();%>
-        <p><%= status + " " + HttpStatus.getStatusText(status) %></p>
+        <p><%= status + " " + HttpStatus.getStatusText(status) %>
+        </p>
         <% } %>
     </div>
 </header>
 <div class="img-container">
     <img src="resources/assets/loading-cat.gif" alt="???"/>
-    <a href="/weblab3/index.xhtml">Main page</a>
+    <a href="/weblab3/index.xhtml">Start page</a>
 </div>
 </body>
 </html>

@@ -6,7 +6,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
     <meta name="viewport"
@@ -21,11 +23,6 @@
         <h:panelGroup id="header-container">
             <h:panelGroup id="header" layout="block">
                 <h:panelGroup styleClass="themes-container" layout="block">
-                    <h:button id="theme-toggle-button" value="To the dark side"/>
-                    <h:button id="ugly-theme-button" value="No please"/>
-                </h:panelGroup>
-                <h:panelGroup styleClass="themes-container" layout="block">
-                    <h:button id="mode-selector" value="Last point"/>
                     <h:button value="Start page" outcome="redirectToIndex"/>
                 </h:panelGroup>
             </h:panelGroup>
@@ -38,16 +35,17 @@
 
         <h:panelGroup id="container" layout="block">
             <h:panelGroup id="canvas-container" styleClass="canvas-container section-container" layout="block">
-                <canvas id="graph-canvas" width="500" height="500">Canvas isn't supported by your browser</canvas> <!-- todo ??? -->
+                <canvas id="graph-canvas" width="500" height="500">Canvas isn't supported by your browser
+                </canvas>
                 <h:outputLabel id="canvas-error-label" styleClass="error-label margin" value=""/>
             </h:panelGroup>
 
             <h:panelGroup id="form-container" styleClass="form-container section-container" layout="block">
-                <h:form id="main-form"> <!--todo action-->
+                <h:form id="main-form">
                     <h:panelGroup id="x-container" layout="block">
                         <h:panelGroup styleClass="input-container" layout="block">
                             <h:outputLabel id="x-output" styleClass="margin" value="Set X: #{inputBean.x}"/>
-                            <h:inputHidden id="x-input" value="#{inputBean.x}"/><!-- todo bean -->
+                            <h:inputHidden id="x-input" value="#{inputBean.x}"/>
                             <p:slider for="x-input" styleClass="field" display="x-output"
                                       displayTemplate="Set X: {value}" minValue="-2" maxValue="2" step="1"/>
                         </h:panelGroup>
@@ -56,38 +54,48 @@
 
                     <h:panelGroup id="y-container" styleClass="input-container" layout="block">
                         <h:outputLabel styleClass="margin" value="Select Y:"/>
-                        <h:inputText id="y-input" styleClass="field" value="#{inputBean.y}"
-                                     required="true" converter="javax.faces.Double">
+                        <h:inputText id="y-input" styleClass="field y-input" value="#{inputBean.y}" maxlength="15"
+                                     required="true" a:placeholder="In the interval [-3; 5]"
+                                     requiredMessage="Value is required"
+                                     converterMessage="Y must be a float between -3 and 5"
+                                     validatorMessage="Y must be a float between -3 and 5">
+                            <f:converter converterId="javax.faces.Double"/>
                             <f:validateDoubleRange minimum="-3" maximum="5"/>
-                        </h:inputText><!-- todo bean -->
+                        </h:inputText>
                         <h:message for="y-input" id="y-error-label" styleClass="error-label margin"/>
                     </h:panelGroup>
 
                     <h:panelGroup id="r-container" layout="block">
                         <h:panelGroup styleClass="input-container" layout="block">
-                            <h:outputLabel for="r-input" styleClass="margin" value="Select R:"/> <!-- todo bean -->
-                            <p:spinner id="r-input" style="font-family: 'Ubuntu', 'Roboto', sans-serif;
-                                                            font-size: 14px" decimalSeparator="." min="1" max="3"
-                                       stepFactor="0.5"
-                                       value="#{inputBean.r}" required="true"/>
+                            <h:outputLabel for="r-input" styleClass="margin" value="Select R:"/>
+                            <p:spinner id="r-input" decimalSeparator="." min="1" max="3" stepFactor="0.5"
+                                       value="#{inputBean.r}" required="true"
+                                       style="font-family: 'Ubuntu', 'Roboto', sans-serif;
+                                              font-size: 14px">
+                                <p:ajax update="redrawer result-table" listener="#{resultCollectionBean.updateR(inputBean.r)}"/>
+                            </p:spinner>
                         </h:panelGroup>
                         <h:message for="r-input" id="r-error-label" styleClass="error-label margin"/>
                     </h:panelGroup>
 
                     <h:panelGroup styleClass="buttons-container" layout="block">
                         <h:commandButton id="submit-button" value="Submit"
-                                         action="#{resultCollectionBean.addNewResult(inputBean.x, inputBean.y, inputBean.r)}"/><!--todo bean and action-->
-                        <h:commandButton id="clear-button" value="Clear table"
-                                         action="#{resultCollectionBean.clearCollection()}"/><!--todo bean and action-->
+                                         action="#{resultCollectionBean.addNewResult(inputBean.x, inputBean.y, inputBean.r)}">
+                            <f:ajax execute="@form" render="@form"/>
+                        </h:commandButton>
+                        <h:commandButton id="clear-button" value="Clear table" immediate="true"
+                                         action="#{resultCollectionBean.clearCollection()}">
+                            <f:ajax render="@form result-table redrawer"/>
+                        </h:commandButton>
                     </h:panelGroup>
                 </h:form>
             </h:panelGroup>
 
             <h:panelGroup id="table-container" styleClass="table-container section-container" layout="block">
-                <h:dataTable id="result-table" value="#{resultCollectionBean.resultList}" var="result"><!--todo bean-->
+                <h:dataTable id="result-table" value="#{resultCollectionBean.resultList}" var="result">
                     <h:column>
                         <f:facet name="header">Result</f:facet>
-                        <h:outputText value="#{result.result}"/>
+                        <h:outputText value="#{result.result ? 'Hit' : 'Miss'}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">X</f:facet>
@@ -111,11 +119,30 @@
                     </h:column>
                 </h:dataTable>
             </h:panelGroup>
+        </h:panelGroup>
 
+        <h:panelGroup>
+            <h:form id="graph-form">
+                <h:inputHidden id="graph-x" value="#{graphClickBean.x}"/>
+                <h:inputHidden id="graph-y" value="#{graphClickBean.y}"/>
+                <p:remoteCommand action="#{resultCollectionBean.addNewResult(graphClickBean.x, graphClickBean.y, inputBean.r)}"
+                                 name="addByClick" update="result-table"/>
+            </h:form>
         </h:panelGroup>
     </f:view>
-    <h:outputScript library="js" name="Drawer.js" target="body"/>
-    <!--    <h:outputScript library="js" name="script.js" target="body"/>-->
+
+    <h:outputScript library="js" name="drawing.js" target="body"/>
+    <h:outputScript library="js" name="script.js" target="body"/>
+    <h:panelGroup id="redrawer">
+        <h:outputScript>
+            setTimeout(function () {
+                drawGraph('#{inputBean.r}')
+                <ui:repeat var="result" value="#{resultCollectionBean.resultList}">
+                    drawPoint('#{result.x}', '#{result.y}', '#{result.r}', #{result.result})
+                </ui:repeat>
+            }, 0)
+        </h:outputScript>
+    </h:panelGroup>
 </h:body>
 
 </html>
