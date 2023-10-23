@@ -20,6 +20,10 @@ public class ResultBean implements Serializable {
 
     public ResultBean(){}
 
+    public Long getId() {
+        return id;
+    }
+
     public boolean getResult() {
         return result;
     }
