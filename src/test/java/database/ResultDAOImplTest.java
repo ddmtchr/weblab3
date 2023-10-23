@@ -54,10 +54,6 @@ public class ResultDAOImplTest {
             testResult.setR(0);
             testResult.setExecAt("FORDELETE");
             testResult.setExecTime(42);
-            session.beginTransaction();
-            session.persist(testResult);
-            session.getTransaction().commit();
-
             DAOFactory.getInstance().getResultDAO().addResult(testResult);
 
             ResultBean addedResult = session.get(ResultBean.class, testResult.getId());
