@@ -81,7 +81,7 @@
                     <h:panelGroup styleClass="buttons-container" layout="block">
                         <h:commandButton id="submit-button" value="Submit"
                                          action="#{resultCollectionBean.addNewResult(inputBean.x, inputBean.y, inputBean.r)}">
-                            <f:ajax execute="@form" render="@form"/>
+                            <f:ajax execute="@form" render="@form result-table"/>
                         </h:commandButton>
                         <h:commandButton id="clear-button" value="Clear table" immediate="true"
                                          action="#{resultCollectionBean.clearCollection()}">
